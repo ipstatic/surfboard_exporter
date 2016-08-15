@@ -14,7 +14,7 @@ setup(
         scripts = ["scripts/surfboard_exporter"],
         packages = ["surfboard_exporter"],
         test_suite = "tests",
-        install_requres = ["prometheus_client>=0.0.14", "requests>=2.6.0", "lxml>=3.2.1"],
+        install_requires = ["prometheus_client>=0.0.14", "requests>=2.6.0", "lxml>=3.2.1"],
         classifiers = [
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Information Technology",
