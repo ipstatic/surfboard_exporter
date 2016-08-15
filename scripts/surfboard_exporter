@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+"""
+Starts the Surfboard Exporter
+"""
+
+import argparse
+from surfboard_exporter.http import start_http_server
+
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--port', type=int, default=9190, help='Port number for HTTP server')
+  args = parser.parse_args()
+
+  start_http_server(args.port)

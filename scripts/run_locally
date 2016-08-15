@@ -1,0 +1,3 @@
+#!/bin/bash
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+./scripts/surfboard_exporter
