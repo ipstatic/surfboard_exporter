@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
         name = "surfboard_exporter",
-        version = "0.9.0",
+        version = "1.0.0",
         author = "Jarod Watkins",
         author_email = "jwatkins@jarodw.com",
         description = ("Arris Surfboard exporter for the Prometheus monitoring system."),
