@@ -14,12 +14,12 @@ class SurfboardCollector():
         downstream = page.xpath('//table')[2]
         upstream = page.xpath('//table')[3]
 
-        ds_frequency = GaugeMetricFamily('surfboard_downstream_frequency_megahertz', 'Downstream frequency in Megahertz', labels=['channel'])
+        ds_frequency = GaugeMetricFamily('surfboard_downstream_frequency_hertz', 'Downstream frequency in Hertz', labels=['channel'])
         ds_power = GaugeMetricFamily('surfboard_downstream_power_dbmv', 'Downstream power level in dBmv', labels=['channel'])
         ds_snr = GaugeMetricFamily('surfboard_downstream_snr_db', 'Downstream signal to noise ration in dB', labels=['channel'])
         ds_codewords_corrected = CounterMetricFamily('surfboard_downstream_codewords_corrected_total', 'Downstream codewords corrected', labels=['channel'])
         ds_codewords_uncorrectable = CounterMetricFamily('surfboard_downstream_codewords_uncorrectable_total', 'Downstream codewords uncorrectable', labels=['channel'])
-        us_frequency = GaugeMetricFamily('surfboard_upstream_frequency_megahertz', 'Upstream frequency in Megahertz', labels=['channel'])
+        us_frequency = GaugeMetricFamily('surfboard_upstream_frequency_hertz', 'Upstream frequency in Hertz', labels=['channel'])
         us_power = GaugeMetricFamily('surfboard_upstream_power_dbmv', 'Upstream power level in dBmv', labels=['channel'])
 
         for i, row in enumerate(downstream):
@@ -27,7 +27,7 @@ class SurfboardCollector():
             if i > 1:
                 channel = row.xpath('td[4]')[0].text
 
-                value = float(re.findall('(\d+\.\d+)', row.xpath('td[5]')[0].text)[0])
+                value = float(re.findall('(\d+\.\d+)', row.xpath('td[5]')[0].text)[0]) * 1000000
                 ds_frequency.add_metric([channel], value)
                 
                 value = float(re.findall('(\d+\.\d+)', row.xpath('td[6]')[0].text)[0])
@@ -47,7 +47,7 @@ class SurfboardCollector():
             if i > 1:
                 channel = row.xpath('td[4]')[0].text
 
-                value = float(re.findall('(\d+\.\d+)', row.xpath('td[6]')[0].text)[0])
+                value = float(re.findall('(\d+\.\d+)', row.xpath('td[6]')[0].text)[0]) * 1000000
                 us_frequency.add_metric([channel], value)
                 
                 value = float(re.findall('(\d+\.\d+)', row.xpath('td[7]')[0].text)[0])
