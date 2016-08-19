@@ -17,7 +17,8 @@ class SurfboardCollector():
         ds_frequency = GaugeMetricFamily('surfboard_downstream_frequency_megahertz', 'Downstream frequency in Megahertz', labels=['channel'])
         ds_power = GaugeMetricFamily('surfboard_downstream_power_dbmv', 'Downstream power level in dBmv', labels=['channel'])
         ds_snr = GaugeMetricFamily('surfboard_downstream_snr_db', 'Downstream signal to noise ration in dB', labels=['channel'])
-        ds_codewords = GaugeMetricFamily('surfboard_downstream_codewords_total', 'Downstream codewords (corrected, uncorrectable)', labels=['channel', 'corrrected', 'uncorrectable'])
+        ds_codewords_corrected = CounterMetricFamily('surfboard_downstream_codewords_corrected_total', 'Downstream codewords corrected', labels=['channel'])
+        ds_codewords_uncorrectable = CounterMetricFamily('surfboard_downstream_codewords_uncorrectable_total', 'Downstream codewords uncorrectable', labels=['channel'])
         us_frequency = GaugeMetricFamily('surfboard_upstream_frequency_megahertz', 'Upstream frequency in Megahertz', labels=['channel'])
         us_power = GaugeMetricFamily('surfboard_upstream_power_dbmv', 'Upstream power level in dBmv', labels=['channel'])
 
@@ -35,10 +36,11 @@ class SurfboardCollector():
                 value = float(re.findall('(\d+\.\d+)', row.xpath('td[7]')[0].text)[0])
                 ds_snr.add_metric([channel], value)
 
-                corrected = int(row.xpath('td[8]')[0].text)
-                uncorrectable = int(row.xpath('td[9]')[0].text)
-                value = int(corrected + uncorrectable)
-                ds_codewords.add_metric([channel, str(corrected), str(uncorrectable)], value)
+                value = int(row.xpath('td[8]')[0].text)
+                ds_codewords_corrected.add_metric([channel], value)
+
+                value = int(row.xpath('td[9]')[0].text)
+                ds_codewords_uncorrectable.add_metric([channel], value)
 
         for i, row in enumerate(upstream):
             # Have to skip header row, wish this was in thead instead of tbody
@@ -54,7 +56,8 @@ class SurfboardCollector():
         yield ds_frequency
         yield ds_power
         yield ds_snr
-        yield ds_codewords
+        yield ds_codewords_corrected
+        yield ds_codewords_uncorrectable
         yield us_frequency
         yield us_power
         yield GaugeMetricFamily('surfboard_scrape_duration_seconds', 'Time Surfboard scrape took, in seconds', value=(time.time() - start))
