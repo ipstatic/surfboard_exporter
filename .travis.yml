@@ -1,0 +1,14 @@
+sudo: false
+language: go
+go:
+- 1.8
+- tip
+script:
+- make
+deploy:
+  provider: releases
+  api_key:
+    secure: a56ioWfBqFdrK1seg7uteKJD4gmM34JTo7BT+XGTZcVBGKsb3WlVMt5DEawXNCQSv3YG5fGrtXXf/O/Vz/w2RbEMo2C41c2pik8okhp9eJ+ywjdnqFZiDq/pgoRUTJrxky/BjyBSzXD4mmFGOCCqQSed+8f0HOsgF0LLR88OHRYcEH6PQH2QBRmFoj/zJRMB+cgzQxwA3YlTfLZ/87Rxe1YT943tgHcGfRvgxgMu4X/a6pHWX1dXiLN+5CrCLPXJj4uST/qixrOrqUJPG0LBU+7kV44jU5QjIph6y0WMiYrBPX3j/KVqZFJvgsgpcMLz4eTKQTPrIRveTN2rM7aFZ24fLeJGxRiUmmu8xicDNBiOgowb2+PpGM/5SSwTApWHZTk/pUOPORF04FV0bYPtgYclfM8JnQVbA4cT1sv0FtZMd6rnzJn26uK0cDqTdbqgNE8cHa5renP5sp0waDm4hsYU3VJ6zXsmR+dx0k0DpVjmnMdNO5nlY2yRu7vhwV5fivdtZt3q3vdmQ1He45D+275htTHt3ZiLyT5Or/YofgWvJ+5bhHxw5iMVxIBiViRWF1nVYPp6joe6R9TVxyhsWH8dRIDEvWCu8VfJKgTYs4Tj5CuQ+6xiWqbEgewtZwkhmBLWiODIhnD1sQdVEYv/NH3+2UnuaibprnZAoLa0fbQ=
+  file: surfboard_exporter
+  on:
+    tags: true

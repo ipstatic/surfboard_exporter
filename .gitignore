@@ -1,5 +1,1 @@
-build
-dist
-*.egg-info
-*.pyc
-*.swp
+surfboard_exporter
