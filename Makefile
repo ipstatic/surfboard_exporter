@@ -8,7 +8,7 @@ BIN_DIR                 ?= $(shell pwd)
 DOCKER_IMAGE_NAME       ?= surfboard-exporter
 DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
-all: format vet build
+all: format vet crossbuild
 
 style:
 	@echo ">> checking code style"
@@ -25,6 +25,10 @@ vet:
 build: $(PROMU)
 	@echo ">> building binaries"
 	@$(PROMU) build --prefix $(PREFIX)
+
+crossbuild: $(PROMU)
+	@echo ">> building binaries"
+	@$(PROMU) crossbuild
 
 tarball: $(PROMU)
 	@echo ">> building release tarball"
