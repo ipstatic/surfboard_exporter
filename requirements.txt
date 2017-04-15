@@ -1,3 +1,0 @@
-prometheus_client==0.0.14
-requests==2.6.0
-lxml==3.2.1
