@@ -9,16 +9,11 @@ monitoring system.
 
 ## Installing
 
-```
-pip install surfboard_exporter
-```
+### Building from source
 
-## Developing Locally
+To build Prometheus from the source code yourself you need to have a working
+Go environment with [version 1.5 or greater installed](http://golang.org/doc/install).
 
-To work on this locally without installing the package, execute:
+## License
 
-```
-./scripts/run_locally
-```
-
-This script will setup your path correctly and run the exporter.
+MIT, see [LICENSE](https://github.com/ipstatic/surfboard_exporter/blob/master/LICENSE).
