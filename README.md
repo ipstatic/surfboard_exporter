@@ -9,6 +9,10 @@ monitoring system.
 
 ## Installing
 
+### Precompiled binaries
+
+Precompiled binaries are available on the [releases page](https://github.com/ipstatic/surfboard_exporter/releases).
+
 ### Building from source
 
 To build Prometheus from the source code yourself you need to have a working
