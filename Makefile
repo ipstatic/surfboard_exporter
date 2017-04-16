@@ -5,8 +5,8 @@ pkgs    = $(shell $(GO) list ./... | grep -v /vendor/)
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
-DOCKER_IMAGE_NAME       ?= surfboard-exporter
-DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
+DOCKER_IMAGE_NAME       ?= ipstatic/surfboard_exporter
+DOCKER_IMAGE_TAG        ?= $(shell cat VERSION)
 
 all: format vet crossbuild
 
@@ -34,7 +34,7 @@ tarball: $(PROMU)
 	@echo ">> building release tarball"
 	@$(PROMU) tarball --prefix $(PREFIX) $(BIN_DIR)
 
-docker: $(PROMU)
+docker: crossbuild
 	@echo ">> building docker image"
 	@docker build -t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
 

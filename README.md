@@ -13,6 +13,15 @@ monitoring system.
 
 Precompiled binaries are available on the [releases page](https://github.com/ipstatic/surfboard_exporter/releases).
 
+### Docker image
+
+Docker images are available on [Docker Hub](https://hub.docker.com/r/ipstatic/surfboard_exporter).
+
+You can launch the container like so:
+```bash
+docker run --name surfboard_exporter -d -p 9239:9239 ipstatic/surfboard_exporter:2.0.0
+```
+
 ### Building from source
 
 To build Prometheus from the source code yourself you need to have a working
