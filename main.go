@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"golang.org/x/net/html"
 	"net/http"
+	"net/http/cookiejar"
 	"os"
 	"regexp"
 	"strconv"
@@ -42,6 +43,10 @@ var (
 		"timeout", 2*time.Second,
 		"Timeout for trying to get stats from Surfboard.",
 	)
+	password = flag.String(
+		"modem-password", "",
+		"Password of modem (if applicable)",
+	)
 )
 
 // Exporter collects Surfboard metrics. It implements prometheus.Collector.
@@ -61,6 +66,9 @@ type Exporter struct {
 
 // NewExporter returns an initialized exporter.
 func NewExporter(timeout time.Duration) *Exporter {
+
+	cookieJar, _ := cookiejar.New(nil)
+
 	return &Exporter{
 		up: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, "", "up"),
@@ -112,6 +120,7 @@ func NewExporter(timeout time.Duration) *Exporter {
 		),
 		client: &http.Client{
 			Timeout: timeout,
+			Jar: cookieJar,
 		},
 	}
 }
@@ -134,6 +143,16 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	e.mutex.Lock() // To protect metrics from concurrent collects.
 	defer e.mutex.Unlock()
+
+	if *password != "" {
+		data := fmt.Sprintf("username=admin&password=%s&ar_nonce=2", *password)
+		resp, err := e.client.Post(fmt.Sprintf("http://%s/cgi-bin/adv_pwd_cgi", *modemAddress), "application/x-www-form-urlencoded", strings.NewReader(data))
+		if err != nil {
+			log.Errorf("Failed to login: %s", err)
+			return
+		}
+		resp.Body.Close()
+	}
 
 	resp, err := e.client.Get(fmt.Sprintf("http://%s/cgi-bin/status", *modemAddress))
 	if err != nil {
